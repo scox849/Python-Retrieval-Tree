@@ -61,7 +61,7 @@ class Node:
         print(json.dumps(printVal))
 
 """Reads all lines from the given file name."""
-def readTheFile(fileName) -> list[str]:
+def readTheFile(fileName):
     with open(fileName, "r") as file:
         lines = file.readlines();
     return lines

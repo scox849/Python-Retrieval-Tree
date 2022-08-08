@@ -68,7 +68,7 @@ def readTheFile(fileName):
 
 
 """Removes all \n characters from list of words read in by readTheFile()"""
-def removeSlashN(word) -> str:
+def removeSlashN(word):
     return word.replace("\n","")
 
 #read in words

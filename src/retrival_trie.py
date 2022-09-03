@@ -118,9 +118,13 @@ def main(args: List[str]):
     trie.insert_multiple(result)
 
     print("Type '--exit' to exit.")
-    user_input = input("Enter a word to find: ")
 
-    while user_input != '--exit':
+    while True:
+
+        user_input = input("Enter a word to find: ")
+
+        if user_input == '--exit':
+            break
 
         start = time.time()
         found = trie.find(user_input.lower())
@@ -132,7 +136,6 @@ def main(args: List[str]):
         else:
             print(user_input, "not in trie.")
 
-        user_input = input("Enter a word to find: ")
 
 if __name__ == "__main__":
 

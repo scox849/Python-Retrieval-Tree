@@ -4,8 +4,9 @@ import time
 import pytest
 import sys
 
+
 class Trie:
-    """Implementation of a retriveal tree."""
+    """Implementation of a retrieval tree."""
 
     def __init__(self):
         self.root = Node()
@@ -14,8 +15,9 @@ class Trie:
         return json.dumps(self.root.format_nodes_for_print(), indent=2)
 
     def insert(self, word):
-        """Inserts a single word into the tree. If the word already exists it will not be
-           inserted more than once."""
+        """Inserts a single word into the tree.
+        If the word already exists it will not be
+        inserted more than once."""
 
         if word == "":
             return
@@ -34,7 +36,8 @@ class Trie:
         lastNode.endOfWord = True
 
     def find(self, word):
-        """Finds the given word in the trie. Only searches for whole words. Return true of false based on existance."""
+        """Finds the given word in the trie. Only searches for whole words.
+        Returns true of false based on existence."""
 
         currentNodeChildren = self.root.children
         word_idx = 0
@@ -42,10 +45,14 @@ class Trie:
 
         for letter in word:
             if currentNodeChildren.get(letter) is not None:
-                if currentNodeChildren.get(letter).endOfWord == True and word_length == (word_idx + 1):
+                if currentNodeChildren.get(
+                    letter
+                ).endOfWord and word_length == (word_idx + 1):
                     return True
                 else:
-                    currentNodeChildren = currentNodeChildren.get(letter).children
+                    currentNodeChildren = currentNodeChildren.get(
+                        letter
+                    ).children
                     word_idx += 1
             else:
                 return False
@@ -55,19 +62,18 @@ class Trie:
 
         return list(map(self.insert, words))
 
-class Node:
 
+class Node:
     def __init__(self):
         self.children = {}
         self.endOfWord = False
-
 
     def format_nodes_for_print(self):
         """Formats all nodes as a dict and is printed as a json."""
 
         printVal = {}
         for child in self.children:
-            if self.endOfWord == False:
+            if not self.endOfWord:
                 printVal[child] = self.children[child].format_nodes_for_print()
             else:
                 return {}
@@ -78,18 +84,18 @@ def readTheFile(fileName) -> list[str]:
     """Reads all lines from the given file name."""
 
     with open(fileName, "r") as file:
-        lines = file.readlines();
+        lines = file.readlines()
     return lines
 
 
 def removeSlashN(word) -> str:
-
     """Removes all \n characters from list of words read in by readTheFile()"""
-    return word.replace("\n","")
+    return word.replace("\n", "")
 
 
 def test_all():
-    """Test by inserting all words into trie and then searching and finding each word inserted."""
+    """Test by inserting all words into trie and
+    then searching and finding each word inserted."""
 
     trie = Trie()
     result = list(map(removeSlashN, readTheFile("words.txt")))
@@ -98,13 +104,12 @@ def test_all():
     for word in result:
         found = trie.find(word)
         all_found.append(found)
-    assert all(all_found) == True
-
+    assert all(all_found)
 
 
 def main(args: List[str]):
     """Inserts words into trie base on file name provided, then
-       searches for words input by the user."""
+    searches for words input by the user."""
 
     if len(args) < 2:
         print("Please provide a file path to words file.")
@@ -120,10 +125,9 @@ def main(args: List[str]):
     print("Type '--exit' to exit.")
 
     while True:
-
         user_input = input("Enter a word to find: ")
 
-        if user_input == '--exit':
+        if user_input == "--exit":
             break
 
         start = time.time()
@@ -138,5 +142,4 @@ def main(args: List[str]):
 
 
 if __name__ == "__main__":
-
     main(sys.argv)
